@@ -1,4 +1,1 @@
-/getting-started/.idea
-/products/.idea
-spring-tutorial/.idea
-testprog/.idea
+*.idea
