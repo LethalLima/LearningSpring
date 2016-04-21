@@ -6,7 +6,7 @@ public class FileWriter implements LogWriter {
 		// Write to a file here.
 		// Dummy implementation
 		System.out.println("Write to file: " + text);
-		
+
 	}
 
 }
