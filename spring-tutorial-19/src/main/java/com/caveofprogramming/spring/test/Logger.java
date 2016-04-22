@@ -4,19 +4,27 @@ package com.caveofprogramming.spring.test;
  * Dummy implementation of logger.
  */
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 public class Logger {
 
 	private ConsoleWriter consoleWriter;
 	private LogWriter fileWriter;
 
-    @Resource
+//    @Resource
+    @Inject
+    @Named(value = "consoleWriter")
 	public void setConsoleWriter(ConsoleWriter writer) {
 		this.consoleWriter = writer;
 	}
 
-    @Resource(name = "squirrel")
+//    @Resource(name = "squirrel")
+    @Inject
+    @Named(value = "squirrel")
 	public void setFileWriter(LogWriter fileWriter) {
 		this.fileWriter = fileWriter;
 	}
@@ -30,4 +38,13 @@ public class Logger {
     		consoleWriter.write(text);
 	}
 
+    @PostConstruct
+    public void init(){
+        System.out.println("Initializing...");
+    }
+
+    @PreDestroy
+    public void destroy(){
+        System.out.println("Destroying...");
+    }
 }
