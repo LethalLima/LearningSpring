@@ -17,6 +17,6 @@
 
     <bean id="fileWriter" class="com.caveofprogramming.spring.test.FileWriter">
     </bean>
-    
+
     <context:annotation-config></context:annotation-config>
 </beans>
