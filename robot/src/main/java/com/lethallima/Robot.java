@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 @Component
 public class Robot {
-    private int id = 0;
+    private String id = "Defualt robot";
     private String speech = "Hello";
 
     public void speak(){
@@ -20,12 +20,13 @@ public class Robot {
     }
 
     @Autowired
-    public void setId(@Value("1337") int id){
+    public void setId(@Value("#{randomText.getText()?.length()}") String id){
         this.id = id;
     }
 
     @Autowired
-    public void setSpeech(@Value("I'll be back, baby.") String speech){
+    // try new java.util.Date().toString()
+    public void setSpeech(@Value("#{T(Math).sin(T(Math).PI/4) ^ 2 le 0.8  ? 'yes' : 'no'}") String speech){
         this.speech = speech;
     }
 }
