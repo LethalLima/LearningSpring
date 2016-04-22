@@ -5,13 +5,14 @@ package com.caveofprogramming.spring.test;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class Logger {
     // Autowiring the fields does not require setters.
 //    @Autowired
 	private ConsoleWriter consoleWriter;
 //    @Autowired
-	private FileWriter fileWriter;
+	private LogWriter fileWriter;
 
     /*
     // Autowiring the constructor
@@ -21,16 +22,17 @@ public class Logger {
 		this.fileWriter = fileWriter;
 	}
     */
-
-
+    
 	// Autowiring the setters
-	@Autowired(required = false)
+	@Autowired()
+    @Qualifier("toconsole")
 	public void setConsoleWriter(ConsoleWriter writer) {
 		this.consoleWriter = writer;
 	}
 
 	@Autowired
-	public void setFileWriter(FileWriter fileWriter) {
+    @Qualifier("fileWriter")
+	public void setFileWriter(LogWriter fileWriter) {
 		this.fileWriter = fileWriter;
 	}
 
