@@ -15,8 +15,10 @@
 
     <bean id="consoleWriter" class="com.caveofprogramming.spring.test.ConsoleWriter"></bean>
 
-    <bean id="fileWriter" class="com.caveofprogramming.spring.test.FileWriter">
+    <bean name="squirrel" class="com.caveofprogramming.spring.test.ConsoleWriter">
     </bean>
+
+    <bean id="mongoose" class="com.caveofprogramming.spring.test.FileWriter"></bean>
 
     <context:annotation-config></context:annotation-config>
 </beans>
