@@ -1,4 +1,4 @@
-package com.lethallima;
+package com.lethallima.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 @Component
 public class Robot {
-    private String id = "Defualt robot";
+    private String id = "Default robot";
     private String speech = "Hello";
 
     public void speak(){
@@ -20,13 +20,13 @@ public class Robot {
     }
 
     @Autowired
-    public void setId(@Value("#{randomText.getText()?.length()}") String id){
+    public void setId(@Value("${jdbc.user}")String id){
         this.id = id;
     }
 
     @Autowired
     // try new java.util.Date().toString()
-    public void setSpeech(@Value("#{T(Math).sin(T(Math).PI/4) ^ 2 le 0.8  ? 'yes' : 'no'}") String speech){
+    public void setSpeech(@Value("${jdbc.password}")String speech){
         this.speech = speech;
     }
 }
