@@ -14,7 +14,7 @@ import java.util.List;
  * Created by jeffrey.lima on 4/29/2016.
  */
 
-@Component
+@Component()
 public class OffersDAO {
 
     private JdbcTemplate jdbc;
