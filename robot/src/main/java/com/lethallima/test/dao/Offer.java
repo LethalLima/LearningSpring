@@ -1,4 +1,4 @@
-package dao;
+package com.lethallima.test.dao;
 
 /**
  * Created by jeffrey.lima on 4/29/2016.
