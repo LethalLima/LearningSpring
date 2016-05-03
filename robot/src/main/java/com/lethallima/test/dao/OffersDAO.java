@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.*;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -46,11 +48,13 @@ public class OffersDAO {
         });
     }
 
+    @Transactional
     public boolean create(Offer offer){
         BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(offer);
         return jdbc.update("INSERT INTO offers (name, email, text) VALUES (:name, :email, :text)", params) == 1;
     }
 
+    @Transactional
     public int[] create(List<Offer> offers) {
 
         SqlParameterSource[] params = SqlParameterSourceUtils.createBatch(offers.toArray());
