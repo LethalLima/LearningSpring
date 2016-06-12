@@ -1,11 +1,15 @@
 package lethallima.web.controllers;
 
+import lethallima.web.dao.Offer;
+import lethallima.web.services.OffersService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,9 +32,17 @@ public class OffersController {
 //        return modelAndView;
 //    }
 
+    private OffersService offersService;
+
+    @Autowired
+    public void setOffersService(OffersService offersService) {
+        this.offersService = offersService;
+    }
+
     @RequestMapping("/")
     public String showHome(Model model) {
-        model.addAttribute("name", "Mario");
+        List<Offer> offers = offersService.getCurrent();
+        model.addAttribute("offers", offers);
         return "home";
     }
 

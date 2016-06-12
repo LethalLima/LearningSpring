@@ -21,9 +21,9 @@ public class OfferDAO {
     //    private JdbcTemplate jdbc;
     private NamedParameterJdbcTemplate jdbc;
 
-    public OfferDAO(){
-        System.out.println("Successfully loaded offers DAO.");
-    }
+//    public OfferDAO(){
+//        System.out.println("Successfully loaded offers DAO.");
+//    }
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
