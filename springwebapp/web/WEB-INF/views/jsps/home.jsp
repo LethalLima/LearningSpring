@@ -25,9 +25,10 @@
     <h2>Results</h2>
 
     <c:forEach var="row" items="${rs.rows}">
-        First Name ${row.firstName}<br/>
-        Email ${row.email}<br/>
-        Message ${row.message}<br/>
+        Name: ${row.firstName} ${row.lastName}<br/>
+        Email: ${row.email}<br/>
+        Message: ${row.message}<br/>
+        <br/>
     </c:forEach>
 
 </body>

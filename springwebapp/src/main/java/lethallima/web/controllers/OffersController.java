@@ -13,7 +13,6 @@ import java.util.Map;
  */
 
 @Controller
-//@RequestMapping("/")
 public class OffersController {
 //    @RequestMapping("/")
 //    public String showHome(HttpSession session){
