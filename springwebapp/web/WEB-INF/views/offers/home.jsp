@@ -8,9 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Test</title>
+    <title>Home</title>
 </head>
 <body>
-    Routed here
+    <p><a href="${pageContext.request.contextPath}/offers">Show Current Offers</a></p>
+    <p><a href="${pageContext.request.contextPath}/offers/create">Add New Offer</a></p>
 </body>
 </html>

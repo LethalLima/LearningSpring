@@ -52,20 +52,20 @@ public class OfferDAO {
     @Transactional
     public boolean create(Offer offer){
         BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(offer);
-        return jdbc.update("INSERT INTO offers (name, email, text) VALUES (:name, :email, :text)", params) == 1;
+        return jdbc.update("INSERT INTO offers (firstName, lastName, email, message) VALUES (:firstName, :lastName, :email, :message)", params) == 1;
     }
 
     @Transactional
     public int[] create(List<Offer> offers) {
 
         SqlParameterSource[] params = SqlParameterSourceUtils.createBatch(offers.toArray());
-        return jdbc.batchUpdate("INSERT INTO offers (name, email, text) VALUES (:name, :email, :text)", params);
+        return jdbc.batchUpdate("NSERT INTO offers (firstName, lastName, email, message) VALUES (:firstName, :lastName, :email, :message)", params);
 
     }
 
     public boolean update(Offer offer) {
         BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(offer);
-        return jdbc.update("UPDATE offers SET name=:name, email=:email, text=:text WHERE id=:id", params) == 1;
+        return jdbc.update("UPDATE offers SET firstName=:firstName, lastName=:lastName, email=:email, message=:message WHERE id=:id", params) == 1;
     }
 
     public boolean delete(int id) {

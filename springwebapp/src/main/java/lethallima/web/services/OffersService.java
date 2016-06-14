@@ -20,7 +20,11 @@ public class OffersService {
         this.offerDAO = offerDAO;
     }
 
-    public List<Offer> getCurrent() {
+    public List<Offer> getOffers() {
         return offerDAO.getOffers();
+    }
+
+    public boolean createOffer(Offer offer) {
+        return offerDAO.create(offer);
     }
 }
