@@ -27,4 +27,12 @@ public class OffersService {
     public boolean createOffer(Offer offer) {
         return offerDAO.create(offer);
     }
+
+    public Offer getOffer(int offerId) {
+        return offerDAO.getOffer(offerId);
+    }
+
+    public boolean updateOffer(Offer offer) {
+        return offerDAO.update(offer);
+    }
 }

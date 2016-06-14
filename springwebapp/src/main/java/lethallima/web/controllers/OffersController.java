@@ -8,11 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -59,27 +57,57 @@ public class OffersController {
         return "offers/index";
     }
 
+    @RequestMapping(value = "/offers/{offerId}", method = RequestMethod.GET)
+    public String showOffer(Model model, @PathVariable int offerId) {
+        Offer offer = offersService.getOffer(offerId);
+        model.addAttribute("offer", offer);
+        return "offers/show";
+    }
+
     @RequestMapping("/offers/create")
-    public String createOffers(Model model) {
-        model.addAttribute("offer", new Offer());
+    public String createOffer(Model model) {
+        if (!model.containsAttribute("offer")) {
+            model.addAttribute("offer", new Offer());
+        }
+
         return "offers/create";
     }
 
     @RequestMapping(value = "/offers/store", method = RequestMethod.POST)
-    public String storeOffers(Model model, @Valid Offer offer, BindingResult bindingResult){
+    public String storeOffer(@Valid @ModelAttribute("offer") Offer offer, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()) {
 //            List<ObjectError> objectErrors = bindingResult.getAllErrors();
 //            for(ObjectError objectError: objectErrors){
 //                System.out.println(objectError.getDefaultMessage());
 //            }
-//            return "redirect:/offers/create"; // need to figure out how to redirect to same page instead of "/offers/store"
-            return "/offers/create";
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offer", bindingResult);
+            redirectAttributes.addFlashAttribute("offer", offer);
+            return "redirect:/offers/create";
         } else {
             offersService.createOffer(offer);
         }
 
         // redirect to the proper route
-        return "redirect:/offers";
+        return "redirect:/offers"; // eventually redirect to offers/{offerId}
     }
 
+    @RequestMapping(value = "/offers/{offerId}/edit", method = RequestMethod.GET)
+    public String editOffer(Model model, @PathVariable int offerId){
+        Offer offer = offersService.getOffer(offerId);
+        model.addAttribute("offer", offer);
+        return "offers/edit";
+    }
+
+    @RequestMapping(value = "/offers/{offerId}", method = RequestMethod.POST)
+    public String updateOffer(@PathVariable int offerId, @Valid @ModelAttribute("offer") Offer offer, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        System.out.println(offer);
+        if(bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offer", bindingResult);
+            redirectAttributes.addFlashAttribute("offer", offer);
+            return "redirect:/offers/" + offerId + "/edit";
+        } else {
+            offersService.updateOffer(new Offer(offerId, offer.getFirstName(), offer.getLastName(), offer.getEmail(), offer.getMessage()));
+        }
+        return "redirect:/offers/" + offerId;
+    }
 }
