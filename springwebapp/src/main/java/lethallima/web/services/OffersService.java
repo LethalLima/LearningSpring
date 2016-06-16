@@ -1,38 +1,22 @@
 package lethallima.web.services;
 
 import lethallima.web.dao.Offer;
-import lethallima.web.dao.OfferDAO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * Created by LethalLima on 6/11/16.
+ * Created by LethalLima on 6/14/16.
  */
+public interface OffersService {
+//    @Autowired
+//    void setOfferDAO(OfferDAO offerDAO);
 
-@Service("offersService")
-public class OffersService {
-    private OfferDAO offerDAO;
+    List<Offer> getOffers();
 
-    @Autowired
-    public void setOfferDAO(OfferDAO offerDAO) {
-        this.offerDAO = offerDAO;
-    }
+    boolean createOffer(Offer offer);
 
-    public List<Offer> getOffers() {
-        return offerDAO.getOffers();
-    }
+    Offer getOffer(int offerId);
 
-    public boolean createOffer(Offer offer) {
-        return offerDAO.create(offer);
-    }
+    boolean updateOffer(Offer offer);
 
-    public Offer getOffer(int offerId) {
-        return offerDAO.getOffer(offerId);
-    }
-
-    public boolean updateOffer(Offer offer) {
-        return offerDAO.update(offer);
-    }
 }

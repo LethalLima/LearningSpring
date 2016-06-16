@@ -9,11 +9,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/offers.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/offers.css" type="text/css">
     <title>Edit Offer</title>
 </head>
 <body>
-    <sf:form class="table-form" method="post" action="${pageContext.request.contextPath}/offers/${offer.id}" modelAttribute="offer">
+    <sf:form class="table-form" method="post" action="/offers/${offer.id}" modelAttribute="offer">
         <table>
             <tr>
                 <td class="label">First Name: </td>

@@ -28,3 +28,7 @@ textarea {
     color: red;
     margin-left: 10px;
 }
+
+p.error {
+    font-size: medium;
+}

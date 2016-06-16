@@ -23,7 +23,7 @@
             <td>${offer.message}</td>
         </tr>
         <tr>
-            <td><a href="${pageContext.request.contextPath}/offers/${offer.id}/edit">Edit Offer</a></td>
+            <td><a href="/offers/${offer.id}/edit">Edit Offer</a></td>
         </tr>
     </table>
 </body>

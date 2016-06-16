@@ -10,11 +10,11 @@
 
 <html>
 <head>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/offers.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/offers.css" type="text/css">
     <title>Create Offer</title>
 </head>
 <body>
-    <sf:form class="table-form" method="post" action="${pageContext.request.contextPath}/offers/store" modelAttribute="offer">
+    <sf:form class="table-form" method="post" action="/offers/store" modelAttribute="offer">
     <table>
         <tr>
             <td class="label">First Name: </td>

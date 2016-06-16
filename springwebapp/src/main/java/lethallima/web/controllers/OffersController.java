@@ -1,70 +1,52 @@
 package lethallima.web.controllers;
 
 import lethallima.web.dao.Offer;
-import lethallima.web.services.OffersService;
+import lethallima.web.services.OffersServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by LethalLima on 5/30/16.
  */
 
 @Controller
+@RequestMapping("/offers")
 public class OffersController {
-//    @RequestMapping("/")
-//    public String showHome(HttpSession session){
-//        session.setAttribute("name", "Jeff");
-//            return "home";
-//    }
 
-//    @RequestMapping("/")
-//    public ModelAndView showHome() {
-//        ModelAndView modelAndView = new ModelAndView("home");
-//        Map<String, Object> model = modelAndView.getModel();
-//        model.put("name", "Michelle");
-//        return modelAndView;
-//    }
-
-    private OffersService offersService;
+    private OffersServiceImpl offersService;
 
     @Autowired
-    public void setOffersService(OffersService offersService) {
+    public void setOffersService(OffersServiceImpl offersService) {
         this.offersService = offersService;
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String getTest(Model model, @RequestParam("id") String id) {
-        System.out.println("id is " + id);
-        return "offers/home";
-    }
+//    @RequestMapping(value = "/home", method = RequestMethod.GET)
+//    public String offersHome() {
+//        return "offers/home";
+//    }
 
-    @RequestMapping("/offers")
+    @RequestMapping(method = RequestMethod.GET)
     public String indexOffers(Model model) {
         List<Offer> offers = offersService.getOffers();
         model.addAttribute("offers", offers);
         return "offers/index";
     }
 
-    @RequestMapping(value = "/offers/{offerId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{offerId}", method = RequestMethod.GET)
     public String showOffer(Model model, @PathVariable int offerId) {
         Offer offer = offersService.getOffer(offerId);
         model.addAttribute("offer", offer);
         return "offers/show";
     }
 
-    @RequestMapping("/offers/create")
+    @RequestMapping("/create")
     public String createOffer(Model model) {
         if (!model.containsAttribute("offer")) {
             model.addAttribute("offer", new Offer());
@@ -73,13 +55,10 @@ public class OffersController {
         return "offers/create";
     }
 
-    @RequestMapping(value = "/offers/store", method = RequestMethod.POST)
+    @RequestMapping(value = "/store", method = RequestMethod.POST)
     public String storeOffer(@Valid @ModelAttribute("offer") Offer offer, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()) {
-//            List<ObjectError> objectErrors = bindingResult.getAllErrors();
-//            for(ObjectError objectError: objectErrors){
-//                System.out.println(objectError.getDefaultMessage());
-//            }
+            // redirect with errors and same page
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offer", bindingResult);
             redirectAttributes.addFlashAttribute("offer", offer);
             return "redirect:/offers/create";
@@ -91,16 +70,15 @@ public class OffersController {
         return "redirect:/offers"; // eventually redirect to offers/{offerId}
     }
 
-    @RequestMapping(value = "/offers/{offerId}/edit", method = RequestMethod.GET)
+    @RequestMapping(value = "/{offerId}/edit", method = RequestMethod.GET)
     public String editOffer(Model model, @PathVariable int offerId){
         Offer offer = offersService.getOffer(offerId);
         model.addAttribute("offer", offer);
         return "offers/edit";
     }
 
-    @RequestMapping(value = "/offers/{offerId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{offerId}", method = RequestMethod.POST)
     public String updateOffer(@PathVariable int offerId, @Valid @ModelAttribute("offer") Offer offer, BindingResult bindingResult, RedirectAttributes redirectAttributes){
-        System.out.println(offer);
         if(bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offer", bindingResult);
             redirectAttributes.addFlashAttribute("offer", offer);
