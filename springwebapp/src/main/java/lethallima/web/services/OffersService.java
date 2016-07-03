@@ -1,6 +1,6 @@
 package lethallima.web.services;
 
-import lethallima.web.dao.Offer;
+import lethallima.web.dao.entities.Offer;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface OffersService {
 //    @Autowired
-//    void setOfferDAO(OfferDAO offerDAO);
+//    void setOfferDAO(OfferDAOImpl offerDAO);
 
     List<Offer> getOffers();
 

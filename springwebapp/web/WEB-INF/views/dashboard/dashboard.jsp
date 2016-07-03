@@ -11,6 +11,6 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <p><a href="/offers">Offers</a></p>
+    <p><a href="/offers">View My Offers</a></p>
 </body>
 </html>

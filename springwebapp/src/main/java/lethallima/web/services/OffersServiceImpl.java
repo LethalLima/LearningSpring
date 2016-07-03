@@ -1,7 +1,7 @@
 package lethallima.web.services;
 
-import lethallima.web.dao.Offer;
 import lethallima.web.dao.OfferDAO;
+import lethallima.web.dao.entities.Offer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +18,8 @@ public class OffersServiceImpl implements OffersService {
 
     // can autowire variable instead of using a setter
 //    @Autowired
-//    public void setOfferDAO(OfferDAO offerDAO) {
-//        this.offerDAO = offerDAO;
+//    public void setOfferDAO(OfferDAOImpl offerDaoImpl) {
+//        this.offerDaoImpl = offerDaoImpl;
 //    }
 
     public List<Offer> getOffers() {

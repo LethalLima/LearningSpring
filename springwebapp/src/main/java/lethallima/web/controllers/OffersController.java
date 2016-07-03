@@ -1,6 +1,6 @@
 package lethallima.web.controllers;
 
-import lethallima.web.dao.Offer;
+import lethallima.web.dao.entities.Offer;
 import lethallima.web.services.OffersServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,11 +26,6 @@ public class OffersController {
     public void setOffersService(OffersServiceImpl offersService) {
         this.offersService = offersService;
     }
-
-//    @RequestMapping(value = "/home", method = RequestMethod.GET)
-//    public String offersHome() {
-//        return "offers/home";
-//    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String indexOffers(Model model) {

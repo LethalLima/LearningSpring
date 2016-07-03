@@ -1,4 +1,4 @@
-package lethallima.web.dao;
+package lethallima.web.dao.entities;
 
 import lethallima.web.custom.validations.ValidEmail;
 import org.hibernate.validator.constraints.Email;

@@ -19,6 +19,7 @@
 <c:if test="${param.error != null}">
     <p class="error">Login failed. Check username and password are correct.</p>
 </c:if>
+
 <sf:form name="f" action="/login" method="POST">
     <table class="table-form">
         <tbody>
@@ -31,10 +32,11 @@
             <td><input type="password" name="password"></td>
         </tr>
         <tr>
-            <td colspan="2"><input name="submit" type="submit" value="Login"></td>
+            <td><input name="submit" type="submit" value="Login"></td>
         </tr>
         </tbody>
     </table>
 </sf:form>
+<p><a href="/login/create">Create Account</a></p>
 </body>
 </html>
