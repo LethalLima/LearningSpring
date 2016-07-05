@@ -1,13 +1,26 @@
 package lethallima.web.dao.entities;
 
+import lethallima.web.custom.validations.ValidEmail;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 /**
  * Created by LethalLima on 7/1/16.
  */
 public class User {
+    @NotEmpty(message = "Please enter a username.")
+    @Size(max = 40, message = "Username has exceeded maximum character count of 40.")
     private String username;
+
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
     private String password;
+
+    @ValidEmail(message = "Please enter a valid email address.")
     private String email;
-    private boolean enabled = false;
+
+    private boolean enabled = true;
     private String role;
 
     public User(){}

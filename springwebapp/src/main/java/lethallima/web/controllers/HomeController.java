@@ -58,8 +58,6 @@ public class HomeController {
             redirectAttributes.addFlashAttribute("user", user);
             return "redirect:/login/create";
         } else {
-            user.setRole("user");
-            user.setEnabled(true);
             usersService.create(user);
         }
 
