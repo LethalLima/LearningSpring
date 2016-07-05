@@ -1,5 +1,6 @@
 package lethallima.web.dao;
 
+import lethallima.web.dao.entities.Offer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.jdbc.core.RowMapper;
@@ -59,7 +60,7 @@ public class OfferDAO {
     public int[] create(List<Offer> offers) {
 
         SqlParameterSource[] params = SqlParameterSourceUtils.createBatch(offers.toArray());
-        return jdbc.batchUpdate("NSERT INTO offers (firstName, lastName, email, message) VALUES (:firstName, :lastName, :email, :message)", params);
+        return jdbc.batchUpdate("INSERT INTO offers (firstName, lastName, email, message) VALUES (:firstName, :lastName, :email, :message)", params);
 
     }
 
