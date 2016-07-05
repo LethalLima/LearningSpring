@@ -16,12 +16,6 @@ public class OffersServiceImpl implements OffersService {
     @Autowired
     private OfferDAO offerDAO;
 
-    // can autowire variable instead of using a setter
-//    @Autowired
-//    public void setOfferDAO(OfferDAOImpl offerDaoImpl) {
-//        this.offerDaoImpl = offerDaoImpl;
-//    }
-
     public List<Offer> getOffers() {
         return offerDAO.getOffers();
     }

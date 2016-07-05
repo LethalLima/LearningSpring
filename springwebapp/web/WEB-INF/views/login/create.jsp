@@ -15,7 +15,7 @@
 <body>
 <h3>Create New Account</h3>
 
-<sf:form name="f" action="/login/create" method="POST" commandName="user">
+<sf:form name="f" action="/login/create" method="POST" modelAttribute="user">
     <table class="table-form">
         <tr>
             <td>Username:</td>

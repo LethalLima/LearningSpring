@@ -8,8 +8,6 @@ import java.util.List;
  * Created by LethalLima on 6/14/16.
  */
 public interface OffersService {
-//    @Autowired
-//    void setOfferDAO(OfferDAOImpl offerDAO);
 
     List<Offer> getOffers();
 

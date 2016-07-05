@@ -1,7 +1,7 @@
 package lethallima.web.controllers;
 
 import lethallima.web.dao.entities.Offer;
-import lethallima.web.services.OffersServiceImpl;
+import lethallima.web.services.OffersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +20,8 @@ import java.util.List;
 @RequestMapping("/offers")
 public class OffersController {
 
-    private OffersServiceImpl offersService;
-
     @Autowired
-    public void setOffersService(OffersServiceImpl offersService) {
-        this.offersService = offersService;
-    }
+    private OffersService offersService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String indexOffers(Model model) {
