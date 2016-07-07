@@ -42,7 +42,6 @@ public class OfferDAO {
                 offer.setFirstName(rs.getString("firstName"));
                 offer.setLastName(rs.getString("lastName"));
                 offer.setMessage(rs.getString("message"));
-                offer.setEmail(rs.getString("email"));
 
                 return offer;
             }
@@ -53,20 +52,20 @@ public class OfferDAO {
     @Transactional
     public boolean create(Offer offer){
         BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(offer);
-        return jdbc.update("INSERT INTO offers (firstName, lastName, email, message) VALUES (:firstName, :lastName, :email, :message)", params) == 1;
+        return jdbc.update("INSERT INTO offers (firstName, lastName, message) VALUES (:firstName, :lastName, :message)", params) == 1;
     }
 
     @Transactional
     public int[] create(List<Offer> offers) {
 
         SqlParameterSource[] params = SqlParameterSourceUtils.createBatch(offers.toArray());
-        return jdbc.batchUpdate("INSERT INTO offers (firstName, lastName, email, message) VALUES (:firstName, :lastName, :email, :message)", params);
+        return jdbc.batchUpdate("INSERT INTO offers (firstName, lastName, message) VALUES (:firstName, :lastName, :message)", params);
 
     }
 
     public boolean update(Offer offer) {
         BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(offer);
-        return jdbc.update("UPDATE offers SET firstName=:firstName, lastName=:lastName, email=:email, message=:message WHERE id=:id", params) == 1;
+        return jdbc.update("UPDATE offers SET firstName=:firstName, lastName=:lastName, message=:message WHERE id=:id", params) == 1;
     }
 
     public boolean delete(int id) {
@@ -87,8 +86,6 @@ public class OfferDAO {
                 offer.setFirstName(rs.getString("firstName"));
                 offer.setLastName(rs.getString("lastName"));
                 offer.setMessage(rs.getString("message"));
-                offer.setEmail(rs.getString("email"));
-
                 return offer;
             }
 

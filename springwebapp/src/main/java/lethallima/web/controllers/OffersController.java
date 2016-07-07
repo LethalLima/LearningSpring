@@ -75,7 +75,7 @@ public class OffersController {
             redirectAttributes.addFlashAttribute("offer", offer);
             return "redirect:/offers/" + offerId + "/edit";
         } else {
-            offersService.updateOffer(new Offer(offerId, offer.getFirstName(), offer.getLastName(), offer.getEmail(), offer.getMessage()));
+            offersService.updateOffer(offer);
         }
         return "redirect:/offers/" + offerId;
     }

@@ -1,5 +1,6 @@
 package lethallima.web.configuration;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -7,6 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -15,12 +19,14 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * Created by LethalLima on 7/2/16.
  */
 @Configuration
 @EnableWebMvc
+@EnableTransactionManagement
 @ComponentScan(basePackages = {"lethallima.web"})
 @PropertySource("classpath:jdbc.properties")
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
@@ -38,6 +44,24 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 //    @Autowired
 //    Environment env;
 
+
+    @Bean
+    public SessionFactory sessionFactory() {
+        LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource());
+        builder.scanPackages("lethallima.web.dao")
+                .addProperties(getHibernateProperties());
+        return builder.buildSessionFactory();
+    }
+
+    private Properties getHibernateProperties() {
+        Properties prop = new Properties();
+        prop.put("hibernate.format_sql", "true");
+        prop.put("hibernate.show_sql", "true");
+        prop.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+
+        return prop;
+    }
+
     @Bean(name="dataSource")
     public DataSource dataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
@@ -46,6 +70,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         driverManagerDataSource.setUsername(username);
         driverManagerDataSource.setPassword(password);
         return driverManagerDataSource;
+    }
+
+    //Create a transaction manager
+    @Bean
+    public HibernateTransactionManager transactionManager() {
+        return new HibernateTransactionManager(sessionFactory());
     }
 
     // Required in order to use @Value

@@ -1,5 +1,6 @@
 package lethallima.web.configuration;
 
+import lethallima.web.helpers.Consts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,25 +23,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Autowired
+    private AuthSuccessHandler authSuccessHandler;
+
+    private final String AUTHORITIES_BY_USERNAME_QUERY = "SELECT U.username AS username, R.role as authority FROM user_role U JOIN roles R ON U.role_id=R.id WHERE username = ?";
+
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
-                .authoritiesByUsernameQuery("SELECT username, role FROM user_role WHERE username = ?");
+                .authoritiesByUsernameQuery(AUTHORITIES_BY_USERNAME_QUERY);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/resources/**", "/login", "/login/create", "/offers").permitAll() // #4
-                    .antMatchers("/admin/**").hasRole("admin") // #6
-                    .anyRequest().authenticated() // 7
+                    .antMatchers("/", "/resources/**", "/login", "/login/create", "/offers").permitAll()
+                    .antMatchers("/admin/**").hasAuthority(Consts.ROLE_ADMIN)
+                    .anyRequest().authenticated()
                     .and()
-                .formLogin()  // #8
-                    .defaultSuccessUrl("/dashboard", true)
-                    .loginPage("/login") // #9
+                .formLogin()
+                    .successHandler(authSuccessHandler)
+//                    .defaultSuccessUrl("/dashboard")
+                    .loginPage("/login")
                     .failureUrl("/login?error=true")
                     .and()
                 .logout()

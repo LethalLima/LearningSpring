@@ -22,10 +22,6 @@ public class Offer {
     @Size(max = 40, message = "Last name has exceeded maximum character count of 40.")
     private String lastName;
 
-//    @Pattern(regexp = "\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(.\\w{2,})+", message = "Please enter a valid email address.")
-    @ValidEmail(message = "Please enter a valid email address.")
-    private String email;
-
     @Size(min = 20, max = 200, message = "Please enter a message from 20 to 200 characters.")
     private String message;
 
@@ -35,7 +31,6 @@ public class Offer {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
         this.message = message;
     }
 
@@ -63,14 +58,6 @@ public class Offer {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getMessage() {
         return message;
     }
@@ -85,7 +72,6 @@ public class Offer {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
                 ", message='" + message + '\'' +
                 '}';
     }
