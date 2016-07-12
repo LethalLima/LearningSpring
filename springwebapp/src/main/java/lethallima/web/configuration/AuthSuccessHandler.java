@@ -1,6 +1,6 @@
 package lethallima.web.configuration;
 
-import lethallima.web.helpers.Consts;
+import lethallima.web.helpers.Const;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -58,14 +58,14 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     }
 
     private boolean isUser(List<String> roles) {
-        if (roles.contains(Consts.ROLE_USER)) {
+        if (roles.contains(Const.ROLE_USER)) {
             return true;
         }
         return false;
     }
 
     private boolean isAdmin(List<String> roles) {
-        if (roles.contains(Consts.ROLE_ADMIN)) {
+        if (roles.contains(Const.ROLE_ADMIN)) {
             return true;
         }
         return false;

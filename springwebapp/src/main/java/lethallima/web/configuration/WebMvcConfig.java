@@ -41,28 +41,24 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Value("${jdbc.password}")
     private String password;
-//    @Autowired
-//    Environment env;
 
-
-    @Bean
+    @Bean(name = "sessionFactory")
     public SessionFactory sessionFactory() {
         LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource());
-        builder.scanPackages("lethallima.web.dao")
+        builder.scanPackages("lethallima.web.entities")
                 .addProperties(getHibernateProperties());
         return builder.buildSessionFactory();
     }
 
     private Properties getHibernateProperties() {
         Properties prop = new Properties();
-        prop.put("hibernate.format_sql", "true");
-        prop.put("hibernate.show_sql", "true");
+        prop.put("hibernate.format_sql", false);
+        prop.put("hibernate.show_sql", false);
         prop.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-
         return prop;
     }
 
-    @Bean(name="dataSource")
+    @Bean(name = "dataSource")
     public DataSource dataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
         driverManagerDataSource.setDriverClassName(driver);

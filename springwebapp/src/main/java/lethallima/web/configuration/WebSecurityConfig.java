@@ -1,6 +1,6 @@
 package lethallima.web.configuration;
 
-import lethallima.web.helpers.Consts;
+import lethallima.web.helpers.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthSuccessHandler authSuccessHandler;
 
-    private final String AUTHORITIES_BY_USERNAME_QUERY = "SELECT U.username AS username, R.role as authority FROM user_role U JOIN roles R ON U.role_id=R.id WHERE username = ?";
+    private final String AUTHORITIES_BY_USERNAME_QUERY = "SELECT U.username AS username, R.role as authority FROM user_role U JOIN role R ON U.role_id=R.id WHERE username = ?";
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -33,6 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
+                .usersByUsernameQuery("SELECT username,password,enabled FROM user WHERE username = ?")
                 .authoritiesByUsernameQuery(AUTHORITIES_BY_USERNAME_QUERY);
     }
 
@@ -40,8 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/resources/**", "/login", "/login/create", "/offers").permitAll()
-                    .antMatchers("/admin/**").hasAuthority(Consts.ROLE_ADMIN)
+                    .antMatchers("/", "/resources/**", "/login", "/login/create", "/users").permitAll()
+                    .antMatchers("/admin/**").hasAuthority(Const.ROLE_ADMIN)
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
