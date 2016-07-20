@@ -7,6 +7,7 @@
     <groupId>lethallima.spring.web</groupId>
     <artifactId>springwebapp</artifactId>
     <version>1.0-SNAPSHOT</version>
+
     <properties>
         <springframework.version>4.1.0.RELEASE</springframework.version>
         <hibernatecore.version>4.3.0.Final</hibernatecore.version>
@@ -109,4 +110,36 @@
             <!--<version>2.5.5</version>-->
         <!--</dependency>-->
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+            </build>
+            <properties>
+                <git-branch>XS1-1337</git-branch>
+                <timestamp>${maven.build.timestamp}</timestamp>
+                <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+            </properties>
+        </profile>
+    </profiles>
 </project>

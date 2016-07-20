@@ -1,5 +1,6 @@
 package lethallima.web.controllers;
 
+import lethallima.web.configuration.PropertiesPlaceholder;
 import lethallima.web.entities.Role;
 import lethallima.web.entities.User;
 import lethallima.web.services.UserService;
@@ -22,12 +23,13 @@ import java.util.List;
 public class HomeController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private PropertiesPlaceholder prop;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String showLogin(Principal principal) {
         if (principal != null)
             return "redirect:/dashboard";
-
         return "login/login";
     }
 
@@ -86,5 +88,11 @@ public class HomeController {
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String showHome() {
         return "dashboard/dashboard";
+    }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public void test() {
+        System.out.println(prop.getBranch());
+        System.out.println(prop.getTimestamp());
     }
 }

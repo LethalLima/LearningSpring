@@ -1,0 +1,55 @@
+package lethallima.web.configuration;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.sql.DataSource;
+import java.util.Properties;
+
+/**
+ * Created by LethalLima on 7/20/16.
+ */
+@Configuration
+@EnableTransactionManagement
+public class DBConfiguration {
+    @Autowired
+    private PropertiesPlaceholder prop;
+
+    @Bean(name = "sessionFactory")
+    public SessionFactory sessionFactory() {
+        LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource());
+        builder.scanPackages("lethallima.web.entities")
+                .addProperties(getHibernateProperties());
+        return builder.buildSessionFactory();
+    }
+
+    private Properties getHibernateProperties() {
+        Properties prop = new Properties();
+        prop.put("hibernate.format_sql", false);
+        prop.put("hibernate.show_sql", false);
+        prop.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        return prop;
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+        driverManagerDataSource.setDriverClassName(prop.getDriver());
+        driverManagerDataSource.setUrl(prop.getUrl());
+        driverManagerDataSource.setUsername(prop.getUsername());
+        driverManagerDataSource.setPassword(prop.getPassword());
+        return driverManagerDataSource;
+    }
+
+    //Create a transaction manager
+    @Bean
+    public HibernateTransactionManager transactionManager() {
+        return new HibernateTransactionManager(sessionFactory());
+    }
+}
