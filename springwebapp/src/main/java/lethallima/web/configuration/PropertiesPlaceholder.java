@@ -26,11 +26,11 @@ public class PropertiesPlaceholder {
     @Value("${jdbc.password}")
     private String password;
 
-    @Value("${git.branch}")
-    private String branch;
-
     @Value("${build.timestamp}")
     private String timestamp;
+
+    @Value("${build.version}")
+    private String version;
 
     public String getDriver() {
         return driver;
@@ -48,12 +48,12 @@ public class PropertiesPlaceholder {
         return password;
     }
 
-    public String getBranch() {
-        return branch;
-    }
-
     public String getTimestamp() {
         return timestamp;
+    }
+
+    public String getVersion() {
+        return version;
     }
 
     // Required in order to use @Value

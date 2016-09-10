@@ -13,6 +13,7 @@ public final class Const {
     public static final byte USER_ENABLED = 1;
 
     public static final String USERNAME = "username";
+    public static final String USER_ID = "id";
 
     private Const(){
 

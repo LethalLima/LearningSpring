@@ -23,8 +23,6 @@ import java.util.List;
 public class HomeController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private PropertiesPlaceholder prop;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String showLogin(Principal principal) {
@@ -62,37 +60,25 @@ public class HomeController {
     @ResponseBody
     @RequestMapping(value = "users", method = RequestMethod.GET)
     public List<User> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        System.out.println("User size:" + users.size());
-
-        for(User user: users) {
-            System.out.println(user);
-            for(Role role: user.getRoles()){
-                System.out.println(role);
-            }
-        }
+        System.out.println("Total user count:" + userService.getUsersCount());
         return userService.getAllUsers();
     }
 
-    @ResponseBody
     @RequestMapping(value = "users/{username}", method = RequestMethod.GET)
-    public User getUser(@PathVariable String username) throws Exception {
-        System.out.println("Path variable: " + username);
-        User user = userService.getUser(username);
-        System.out.println("User:\n" + user);
-        for(Role role: user.getRoles())
-            System.out.println(role);
-        return user;
+    public String getUser(@PathVariable String username, Model model) {
+        model.addAttribute("user", userService.getUser(username));
+        return "users/show";
     }
+
+    // Ambigouious
+//    @RequestMapping(value = "users/{id}", method = RequestMethod.GET)
+//    public String getUserById(@PathVariable int id, Model model) {
+//        model.addAttribute("user", userService.getUserById(id));
+//        return "users/show";
+//    }
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String showHome() {
         return "dashboard/dashboard";
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public void test() {
-        System.out.println(prop.getBranch());
-        System.out.println(prop.getTimestamp());
     }
 }

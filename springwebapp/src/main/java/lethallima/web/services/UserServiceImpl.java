@@ -48,8 +48,16 @@ public class UserServiceImpl implements UserService {
         return userDao.getUser(username);
     }
 
+    public User getUserById(int id) {
+        return userDao.getUserById(id);
+    }
+
     @Transactional
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
+    }
+
+    public int getUsersCount() {
+        return userDao.getUsersCount();
     }
 }

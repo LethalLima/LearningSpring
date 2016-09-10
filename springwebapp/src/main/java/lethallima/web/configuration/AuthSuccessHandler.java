@@ -3,6 +3,7 @@ package lethallima.web.configuration;
 import lethallima.web.helpers.Const;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -38,10 +39,10 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private String determineTargetUrl(Authentication authentication) {
         String url;
 
+        User user = (User)authentication.getPrincipal();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
         List<String> roles = new ArrayList<String>();
-
         for (GrantedAuthority a : authorities) {
             roles.add(a.getAuthority());
         }
@@ -49,26 +50,20 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         if (isAdmin(roles)) {
             url = "/admin";
         } else if (isUser(roles)) {
-            url = "/mymovies";
+            url = "/users/" + user.getUsername();
         } else {
-            url = "/accessDenied";
+            url = "/error";
         }
 
         return url;
     }
 
     private boolean isUser(List<String> roles) {
-        if (roles.contains(Const.ROLE_USER)) {
-            return true;
-        }
-        return false;
+        return roles.contains(Const.ROLE_USER);
     }
 
     private boolean isAdmin(List<String> roles) {
-        if (roles.contains(Const.ROLE_ADMIN)) {
-            return true;
-        }
-        return false;
+        return roles.contains(Const.ROLE_ADMIN);
     }
 
 

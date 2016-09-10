@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public Session session() {
+    private Session session() {
         return sessionFactory.getCurrentSession();
     }
 
@@ -42,27 +42,26 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public User getUser(String username) {
-        User user = null;
-        try {
-            user = (User) session().createCriteria(User.class).add(Restrictions.eq("username", username)).uniqueResult();
-        } catch (HibernateException e ) {
-            e.printStackTrace();
-        }
-        return user;
+        Criteria criteria = session().createCriteria(User.class).add(Restrictions.eq(Const.USERNAME, username));
+        return (User) criteria.uniqueResult();
     }
 
     @SuppressWarnings("unchecked")
     public List<User> getAllUsers() {
-        List<User> users = null;
-        try {
-            users = session().createCriteria(User.class)
-//                    .setProjection(Projections.distinct(Projections.projectionList()
-//                            .add(Projections.property(Const.USERNAME))))
-                    .list();
-        } catch(HibernateException e) {
-            e.printStackTrace();
-        }
-        return users;
+        Criteria criteria = session().createCriteria(User.class);
+        return criteria.list();
     }
 
+    public User getUserById(int id) {
+        Criteria criteria = session().createCriteria(User.class)
+                .add(Restrictions.eq(Const.USER_ID, id));
+        return (User) criteria.uniqueResult();
+    }
+
+    public int getUsersCount() {
+        Criteria criteria = session().createCriteria(User.class)
+                .setProjection(Projections.rowCount());
+
+        return ((Long)(criteria.uniqueResult())).intValue();
+    }
 }
