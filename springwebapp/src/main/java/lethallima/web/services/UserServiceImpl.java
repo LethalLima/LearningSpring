@@ -16,6 +16,7 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService {
+    // TODO: Log all exceptions thrown from DAO layer
     @Autowired
     private UserDAO userDao;
 
