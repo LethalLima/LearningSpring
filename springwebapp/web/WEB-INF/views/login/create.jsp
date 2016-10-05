@@ -11,7 +11,7 @@
 <html>
 <head>
     <title>Create Account</title>
-    <link rel="stylesheet" href="/resources/css/offers.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/style.css" type="text/css">
 </head>
 <body>
 <h3>Create New Account</h3>

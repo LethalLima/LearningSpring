@@ -11,7 +11,7 @@
 
 <html>
 <head>
-    <link rel="stylesheet" href="/resources/css/offers.css" type="text/css">
+    <link rel="stylesheet" href="/resources/css/style.css" type="text/css">
     <title>Login Page</title>
 </head>
 <body>

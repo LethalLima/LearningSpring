@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface UserDAO {
 
-    void create(User user);
+    int create(User user);
 
     User getUserByUsername(String username);
 

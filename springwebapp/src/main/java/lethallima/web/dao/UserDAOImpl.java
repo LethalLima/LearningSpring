@@ -22,8 +22,9 @@ import java.util.List;
 @Repository
 public class UserDAOImpl extends AbstractCommonDAO implements UserDAO {
 
-    public void create(User user) throws HibernateException {
-        super.save(user);
+    @Transactional
+    public int create(User user) throws HibernateException {
+        return super.save(user);
     }
 
     @Transactional(readOnly = true)
@@ -34,6 +35,7 @@ public class UserDAOImpl extends AbstractCommonDAO implements UserDAO {
     }
 
     @SuppressWarnings("unchecked")
+    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         Criteria criteria = session().createCriteria(User.class);
         return criteria.list();
