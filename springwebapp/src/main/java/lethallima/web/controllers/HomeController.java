@@ -70,13 +70,6 @@ public class HomeController {
         return "users/show";
     }
 
-    // Ambigouious
-//    @RequestMapping(value = "users/{id}", method = RequestMethod.GET)
-//    public String getUserById(@PathVariable int id, Model model) {
-//        model.addAttribute("user", userService.getUserById(id));
-//        return "users/show";
-//    }
-
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String showHome() {
         return "dashboard/dashboard";

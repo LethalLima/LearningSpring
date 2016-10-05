@@ -18,5 +18,4 @@ public interface UserService {
 
     int getUsersCount();
 
-//    boolean exists(String username);
 }
