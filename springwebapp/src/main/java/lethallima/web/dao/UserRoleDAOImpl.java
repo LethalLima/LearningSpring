@@ -11,11 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Created by LethalLima on 7/10/16.
  */
-
 @Repository
 public class UserRoleDAOImpl extends AbstractCommonDAO implements UserRoleDAO {
 
-    @Transactional
     public int createUserRole(UserRole userRole) throws HibernateException {
         return super.save(userRole);
     }

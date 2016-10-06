@@ -8,6 +8,7 @@ import lethallima.web.helpers.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Transactional
     public void create(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(Const.USER_ENABLED);
@@ -37,18 +39,22 @@ public class UserServiceImpl implements UserService {
         userRoleDAO.createUserRole(userRole);
     }
 
+    @Transactional(readOnly = true)
     public User getUser(String username) {
         return userDao.getUserByUsername(username);
     }
 
+    @Transactional(readOnly = true)
     public User getUserById(int id) {
         return userDao.getUserById(id);
     }
 
+    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
 
+    @Transactional(readOnly = true)
     public int getUsersCount() {
         return userDao.getUsersCount();
     }
