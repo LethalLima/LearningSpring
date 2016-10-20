@@ -4,12 +4,14 @@ import lethallima.web.helpers.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
@@ -40,19 +42,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                    .antMatchers("/", "/resources/**", "/login", "/login/create", "/users", "/test").permitAll()
-                    .antMatchers("/admin/**").hasAuthority(Const.ROLE_ADMIN)
-                    .anyRequest().authenticated()
-                    .and()
-                .formLogin()
-                    .successHandler(authSuccessHandler)
+            .authorizeRequests()
+                .antMatchers("/", "/resources/**").permitAll()
+                .antMatchers("/login", "/login/create").permitAll()
+                .antMatchers(HttpMethod.GET, "/users/{^[\\d]$}").authenticated()
+                .antMatchers("/users/**").hasAuthority(Const.ROLE_ADMIN)
+                .antMatchers("/admin/**").hasAuthority(Const.ROLE_ADMIN)
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
+                .successHandler(authSuccessHandler)
 //                    .defaultSuccessUrl("/dashboard")
-                    .loginPage("/login")
-                    .failureUrl("/login?error=true")
-                    .and()
-                .logout()
-                    .invalidateHttpSession(true);
+                .loginPage("/login")
+                .failureUrl("/login?error=true")
+                .and()
+            .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .deleteCookies("remove")
+                .invalidateHttpSession(true)
+                .logoutUrl("/logout");
     }
 
     @Bean(name="authenticationManager")

@@ -1,5 +1,6 @@
 package lethallima.web.services;
 
+import lethallima.web.dao.RoleDAO;
 import lethallima.web.dao.UserDAO;
 import lethallima.web.dao.UserRoleDAO;
 import lethallima.web.entities.User;
@@ -25,6 +26,9 @@ public class UserServiceImpl implements UserService {
     private UserRoleDAO userRoleDAO;
 
     @Autowired
+    private RoleDAO roleDAO;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -40,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional(readOnly = true)
-    public User getUser(String username) {
+    public User getUserByName(String username) {
         return userDao.getUserByUsername(username);
     }
 
@@ -57,5 +61,10 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public int getUsersCount() {
         return userDao.getUsersCount();
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> getAllRoles() {
+        return roleDAO.getAllRoles();
     }
 }

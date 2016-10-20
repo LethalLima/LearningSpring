@@ -1,17 +1,24 @@
 package lethallima.web.controllers;
 
-import lethallima.web.configuration.PropertiesPlaceholder;
-import lethallima.web.entities.Role;
 import lethallima.web.entities.User;
+import lethallima.web.helpers.Const;
 import lethallima.web.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
@@ -31,43 +38,78 @@ public class HomeController {
         return "login/login";
     }
 
-    @RequestMapping(value = "login/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/login/create", method = RequestMethod.GET)
     public String createUserLogin(Model model, Principal principal) {
         if (principal != null)
             return "redirect:/dashboard";
 
-        if (!model.containsAttribute("user")) {
-            model.addAttribute("user", new User());
+        if (!model.containsAttribute(Const.USER)) {
+            model.addAttribute(Const.USER, new User());
         }
         return "login/create";
     }
 
-    @RequestMapping(value = "login/create", method = RequestMethod.POST)
-    public String storeUserLogin(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpServletRequest http){
+    @RequestMapping(value = "/login/create", method = RequestMethod.POST)
+    public String storeUserLogin(@Valid @ModelAttribute("user") User user,
+                                 BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes,
+                                 HttpServletRequest http){
+
         if(bindingResult.hasErrors()) {
             // redirect with errors and same page
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
-            redirectAttributes.addFlashAttribute("user", user);
+            redirectAttributes.addFlashAttribute(Const.USER, user);
             return "redirect:/login/create";
         } else {
-            // use front-end to see if ask username exists.
             userService.create(user);
         }
 
         return "redirect:/dashboard";
     }
 
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login?logout";//You can redirect wherever you want, but generally it's a good practice to show login screen again.
+    }
+
     @ResponseBody
-    @RequestMapping(value = "users", method = RequestMethod.GET)
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
     public List<User> getAllUsers() {
-        System.out.println("Total user count:" + userService.getUsersCount());
         return userService.getAllUsers();
     }
 
-    @RequestMapping(value = "users/{username}", method = RequestMethod.GET)
-    public String getUser(@PathVariable String username, Model model) {
-        model.addAttribute("user", userService.getUser(username));
-        return "users/show";
+    @ResponseBody
+    @RequestMapping(value = "/users/{" + Const.USER_ID + "}", method = RequestMethod.GET)
+    public User getUser(@PathVariable(Const.USER_ID) Object id) {
+        User user;
+        try {
+            int userId = Integer.parseInt(id.toString());
+            user = userService.getUserById(userId);
+        } catch (NumberFormatException e) {
+            user = userService.getUserByName(id.toString());
+        }
+
+        if(user == null) {
+            throw new IllegalArgumentException(id.toString());
+        }
+
+        return user;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/users/roles", method = RequestMethod.GET)
+    public List<String> getAllRoles() {
+        return userService.getAllRoles();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/users/{userId}/role", method = RequestMethod.PUT)
+    public String test(){
+        return "test";
     }
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)

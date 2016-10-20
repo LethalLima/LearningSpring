@@ -1,5 +1,7 @@
 package lethallima.web.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -39,6 +41,7 @@ public class User implements Serializable {
 
     @Basic
     @Column(name = "password", nullable = false, length = 60)
+    @JsonIgnore // do not want to password to be visible in the JSON
     public String getPassword() {
         return password;
     }

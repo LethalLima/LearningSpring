@@ -12,10 +12,11 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    User getUser(String username);
+    User getUserByName(String username);
 
     User getUserById(int id);
 
     int getUsersCount();
 
+    List<String> getAllRoles();
 }
