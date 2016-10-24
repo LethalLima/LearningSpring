@@ -106,11 +106,6 @@ public class HomeController {
         return userService.getAllRoles();
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/users/{userId}/role", method = RequestMethod.PUT)
-    public String test(){
-        return "test";
-    }
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String showHome() {

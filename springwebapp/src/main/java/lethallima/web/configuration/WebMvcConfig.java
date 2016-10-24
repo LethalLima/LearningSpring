@@ -1,16 +1,21 @@
 package lethallima.web.configuration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * Created by LethalLima on 7/2/16.
@@ -36,12 +41,29 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 
-    @Bean
-    public ObjectMapper objectMapper() {
-        Jackson2ObjectMapperFactoryBean bean = new Jackson2ObjectMapperFactoryBean();
-        bean.setIndentOutput(true);
-        bean.setSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-        bean.afterPropertiesSet();
-        return bean.getObject();
+    // for Jackson to acknowledge lazy loading
+    private Hibernate4Module hibernate4Module() {
+        Hibernate4Module module = new Hibernate4Module();
+        // configure Hibernate4Module
+
+        return module;
     }
+
+    // for jackson to build and parse JSON
+    private MappingJackson2HttpMessageConverter jacksonMessageConverter(){
+        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
+                .indentOutput(true)
+                .dateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"))
+                .modulesToInstall(hibernate4Module());
+
+        return new MappingJackson2HttpMessageConverter(builder.build());
+    }
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(jacksonMessageConverter());
+
+        super.configureMessageConverters(converters);
+    }
+
 }

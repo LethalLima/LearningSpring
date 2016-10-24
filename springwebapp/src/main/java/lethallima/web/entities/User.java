@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Set;
 
 /**
- * Created by LethalLima on 7/10/16.
+ * Created by LethalLima on 10/24/16.
  */
 @Entity
 @Table(name = "user")
@@ -17,6 +18,8 @@ public class User implements Serializable {
     private String password;
     private String email;
     private byte enabled;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
     private Set<Role> roles;
 
     @Id
@@ -70,6 +73,26 @@ public class User implements Serializable {
         this.enabled = enabled;
     }
 
+    @Basic
+    @Column(name = "created_at", nullable = false)
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @Basic
+    @Column(name = "updated_at", nullable = true)
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @ManyToMany(
             targetEntity = Role.class,
             cascade = CascadeType.ALL,
@@ -89,40 +112,33 @@ public class User implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", enabled=" + enabled +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
 
-        User user = (User) o;
+        User that = (User) o;
 
-        if (id != user.id) return false;
-        if (enabled != user.enabled) return false;
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        return roles != null ? roles.equals(user.roles) : user.roles == null;
+        if (id != that.id) return false;
+        if (enabled != that.enabled) return false;
+        if (!username.equals(that.username)) return false;
+        if (!password.equals(that.password)) return false;
+        if (!email.equals(that.email)) return false;
+        if (!createdAt.equals(that.createdAt)) return false;
+        if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null) return false;
+        return roles.equals(that.roles);
 
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + username.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + email.hashCode();
         result = 31 * result + (int) enabled;
-        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + createdAt.hashCode();
+        result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
+        result = 31 * result + roles.hashCode();
         return result;
     }
 }
