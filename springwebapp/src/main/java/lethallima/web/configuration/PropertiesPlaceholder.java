@@ -11,7 +11,8 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  */
 @Configuration
 @PropertySource({"classpath:jdbc.properties",
-        "classpath:test.prop.properties"
+        "classpath:test.prop.properties",
+        "classpath:hibernate.properties"
 })
 public class PropertiesPlaceholder {
     @Value("${jdbc.driver}")
@@ -31,6 +32,15 @@ public class PropertiesPlaceholder {
 
     @Value("${build.version}")
     private String version;
+
+    @Value("${hibernate.show_sql}")
+    private boolean hibernateShowSql;
+
+    @Value("${hibernate.format_sql}")
+    private boolean hibernateFormatSql;
+
+    @Value("${hibernate.dialect}")
+    private String hibernateDialect;
 
     public String getDriver() {
         return driver;
@@ -54,6 +64,18 @@ public class PropertiesPlaceholder {
 
     public String getVersion() {
         return version;
+    }
+
+    public boolean isHibernateShowSql() {
+        return hibernateShowSql;
+    }
+
+    public boolean isHibernateFormatSql() {
+        return hibernateFormatSql;
+    }
+
+    public String getHibernateDialect() {
+        return hibernateDialect;
     }
 
     // Required in order to use @Value

@@ -30,11 +30,11 @@ public class DBConfiguration {
     }
 
     private Properties getHibernateProperties() {
-        Properties prop = new Properties();
-        prop.put("hibernate.format_sql", false);
-        prop.put("hibernate.show_sql", false);
-        prop.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        return prop;
+        Properties hibernateProps = new Properties();
+        hibernateProps.put("hibernate.show_sql", prop.isHibernateShowSql());
+        hibernateProps.put("hibernate.format_sql", prop.isHibernateFormatSql());
+        hibernateProps.put("hibernate.dialect", prop.getHibernateDialect());
+        return hibernateProps;
     }
 
     @Bean
