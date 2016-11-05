@@ -83,8 +83,8 @@ public class HomeController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/users/{" + Const.USER_ID + "}", method = RequestMethod.GET)
-    public User getUser(@PathVariable(Const.USER_ID) Object id) {
+    @RequestMapping(value = "/users/{" + Const.ID + "}", method = RequestMethod.GET)
+    public User getUser(@PathVariable(Const.ID) Object id) {
         User user;
         try {
             int userId = Integer.parseInt(id.toString());

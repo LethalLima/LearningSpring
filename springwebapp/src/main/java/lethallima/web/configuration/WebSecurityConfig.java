@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,6 +21,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
@@ -45,7 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers("/", "/resources/**").permitAll()
                 .antMatchers("/login", "/login/create").permitAll()
-                .antMatchers(HttpMethod.GET, "/users/{^[\\d]$}").authenticated()
+                .antMatchers(HttpMethod.GET, "/users/{id:^[\\d]+$}").authenticated()
+                .antMatchers(HttpMethod.GET, "/users/{id:^[a-zA-Z]+$}").authenticated()
                 .antMatchers("/users/**").hasAuthority(Const.ROLE_ADMIN)
                 .antMatchers("/admin/**").hasAuthority(Const.ROLE_ADMIN)
                 .anyRequest().authenticated()
