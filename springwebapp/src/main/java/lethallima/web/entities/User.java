@@ -96,7 +96,7 @@ public class User implements Serializable {
     @ManyToMany(
             targetEntity = Role.class,
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JoinTable(
             name = "user_role",
