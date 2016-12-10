@@ -3,6 +3,7 @@ package lethallima.web.services;
 import lethallima.web.dao.RoleDAO;
 import lethallima.web.dao.UserDAO;
 import lethallima.web.dao.UserRoleDAO;
+import lethallima.web.entities.Role;
 import lethallima.web.entities.User;
 import lethallima.web.entities.UserRole;
 import lethallima.web.helpers.Const;
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<String> getAllRoles() {
+    public List<Role> getAllRoles() {
         return roleDAO.getAllRoles();
     }
 }

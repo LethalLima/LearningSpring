@@ -1,5 +1,6 @@
 package lethallima.web.controllers;
 
+import lethallima.web.entities.Role;
 import lethallima.web.entities.User;
 import lethallima.web.helpers.Const;
 import lethallima.web.services.UserService;
@@ -102,7 +103,7 @@ public class HomeController {
 
     @ResponseBody
     @RequestMapping(value = "/users/roles", method = RequestMethod.GET)
-    public List<String> getAllRoles() {
+    public List<Role> getAllRoles() {
         return userService.getAllRoles();
     }
 

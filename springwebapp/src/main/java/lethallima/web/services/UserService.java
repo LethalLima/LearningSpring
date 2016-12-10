@@ -1,5 +1,6 @@
 package lethallima.web.services;
 
+import lethallima.web.entities.Role;
 import lethallima.web.entities.User;
 
 import java.util.List;
@@ -18,5 +19,5 @@ public interface UserService {
 
     int getUsersCount();
 
-    List<String> getAllRoles();
+    List<Role> getAllRoles();
 }

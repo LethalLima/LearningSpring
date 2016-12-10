@@ -3,6 +3,7 @@ package lethallima.web.services;
 import lethallima.web.dao.UserDAO;
 import lethallima.web.entities.Role;
 import lethallima.web.entities.User;
+import lethallima.web.entities.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,12 +31,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User loggedInUser = userDAO.getUserByUsername(username);
 
-        return new org.springframework.security.core.userdetails.User(
-                loggedInUser.getUsername(),loggedInUser.getPassword(), buildUserAuthorities(loggedInUser.getRoles()));
+        return new UserPrincipal(loggedInUser.getId(), loggedInUser.getUsername(),
+                loggedInUser.getPassword(), buildUserAuthorities(loggedInUser.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> buildUserAuthorities(Set<Role> roles) {
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        Collection<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
         roles.forEach(role -> grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole())));
 

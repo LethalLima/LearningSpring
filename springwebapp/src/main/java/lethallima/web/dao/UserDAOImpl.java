@@ -33,8 +33,11 @@ public class UserDAOImpl extends AbstractCommonDAO implements UserDAO {
 
     @SuppressWarnings("unchecked")
     public List<User> getAllUsers() {
-        Criteria criteria = session().createCriteria(User.class);
-        return criteria.list();
+        Criteria criteria = session().createCriteria(User.class, "user")
+                .createCriteria("user.roles", "roles");
+        List<User> users =  criteria.list();
+
+        return users;
     }
 
     public User getUserById(int id) {
