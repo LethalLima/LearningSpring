@@ -4,13 +4,10 @@ import lethallima.web.entities.User;
 import lethallima.web.helpers.Const;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,6 +15,7 @@ import java.util.List;
 /**
  * Created by LethalLima on 7/2/16.
  */
+@Transactional(propagation = Propagation.MANDATORY)
 @Repository
 public class UserDAOImpl extends AbstractCommonDAO implements UserDAO {
 
